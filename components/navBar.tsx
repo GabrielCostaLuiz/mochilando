@@ -11,9 +11,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import FormLogout from "./formLogout"
+import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
 
 export default function NavBar() {
+  const [image, setImage] = useState("/avatarDefault.png")
+  const { data: session } = useSession()
   const path = usePathname()
+
+
+  useEffect(() => {
+    if (session?.user?.image) {
+      setImage(session.user.image)
+    }
+  }, [session])
+
+
   return (
     <nav
       className={`bg-white border-b ${
@@ -26,25 +40,47 @@ export default function NavBar() {
             Explorar
           </Link>
 
-          <div className="w-8 h-8 bg-gray-200 rounded-full">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link href="/profile">Perfil</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          {session ? (
+            <div className="w-8 h-8 bg-gray-200 rounded-full">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage src={image} width={100} height={100} />
+                    <AvatarFallback>
+                      {session?.user?.name?.slice(0, 2) ?? "A"}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link
+                      href={`/profile/${session.user?.id}`}
+                      aria-label="Entre no seu perfil"
+                      className="w-full"
+                    >
+                      Perfil
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <FormLogout />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <div>
+              <Link
+                href="/auth/signin"
+                className=" px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                aria-label="Entre na sua conta"
+              >
+                Fazer Login
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

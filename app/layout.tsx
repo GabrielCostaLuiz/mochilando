@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
-import Footer from "@/components/footer"
 import Head from "next/head"
 
 // Importing fonts with correct variables
@@ -17,7 +16,10 @@ const geistMono = Geist_Mono({
 
 // Metadata for the page
 export const metadata: Metadata = {
-  title: "Mochilada - Viagens Econômicas",
+  title: {
+    default: "Mochilada - Viagens Econômicas",
+    template: "%s | Mochilada - Viagens Econômicas",
+  },
   description: "Mochilada: Roteiros econômicos para sua próxima aventura",
   openGraph: {
     title: "Mochilada - Viagens Econômicas",
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -56,7 +58,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Footer />
       </body>
     </html>
   )

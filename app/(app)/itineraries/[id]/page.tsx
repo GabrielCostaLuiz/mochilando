@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import UploadFile from "@/components/uploadFile"
 
 const RouteDetails = () => {
   const [isLiked, setIsLiked] = useState(false)
@@ -261,6 +262,7 @@ const RouteDetails = () => {
 
           <div className="mt-6 pt-6 border-t">
             <h3 className="font-medium mb-4">Deixe seu comentário</h3>
+            <UploadFile />
             <div className="flex gap-4">
               <textarea
                 className="flex-grow p-3 border rounded-lg resize-none h-24 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"

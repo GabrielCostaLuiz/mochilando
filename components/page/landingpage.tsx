@@ -212,6 +212,8 @@ export default function LandingPage() {
           </button>
         </div>
       </div>
+
+      
     </div>
   )
 }

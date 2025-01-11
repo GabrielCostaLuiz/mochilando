@@ -1,18 +1,28 @@
+import Footer from "@/components/footer"
 import NavBar from "@/components/navBar"
+import Providers from "./providers"
 
-export default function AppLayout({
+
+
+
+export default async function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
   return (
     <>
-      <header>
-        <NavBar />
-      </header>
-      <main>
-        <div className={`antialiased`}>{children}</div>
-      </main>
+      <Providers>
+        <header>
+          <NavBar />
+        </header>
+        <main>
+          <div className={`antialiased`}>{children}</div>
+        </main>
+        <Footer />
+
+      </Providers>
     </>
   )
 }

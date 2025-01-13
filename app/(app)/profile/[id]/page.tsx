@@ -111,7 +111,7 @@ export default async function Profile({ params }: { params: Params }) {
               <div className="relative mb-4 md:mb-0">
                 <div className="w-32 h-32 rounded-full border-4 border-yellow-400 overflow-hidden">
                   <Image
-                    src={session?.user?.image ?? "/avatarDefault.png"}
+                    src={userDb?.image ?? "/avatarDefault.png"}
                     alt="Profile"
                     width={400}
                     height={400}
@@ -126,7 +126,7 @@ export default async function Profile({ params }: { params: Params }) {
 
               <div className="text-center md:text-left">
                 <h1 className="text-2xl font-bold text-gray-900 capitalize">
-                  {session?.user?.name}
+                  {userDb?.name ?? "Usuário"}
                 </h1>
                 {/* <div className="flex items-center justify-center md:justify-start text-gray-600 mt-2">
                   <MapPin className="h-4 w-4 mr-1" />

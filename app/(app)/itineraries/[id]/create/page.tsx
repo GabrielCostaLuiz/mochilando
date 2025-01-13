@@ -285,7 +285,7 @@ const CreateRoute = () => {
           // Do something with the response
           console.log("Files: ", res);
 setUrlPlaceholder({
- url: res,
+ url: res[0].appUrl,
   groupdId: "groupid"
 })
           alert("Upload Completed");

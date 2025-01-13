@@ -1,56 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
+import { UploadButton } from "@/utils/uploadthing"
 import Image from "next/image"
-import { useState } from "react"
 
 export default function UploadFile({
   changeUrl,
   urlPhoto,
-  groupId,
 }: {
   changeUrl: any
   urlPhoto: any
-  groupId: string
 }) {
-  const [file, setFile] = useState<File>()
-  const [uploading, setUploading] = useState(false)
-
-  const uploadFile = async () => {
-    try {
-      if (!file) {
-        alert("No file selected")
-        return
-      }
-
-      setUploading(true)
-      const data = new FormData()
-      data.append("file", file)
-
-      if (groupId) {
-        data.append("groupId", groupId)
-      }
-
-      const uploadRequest = await fetch("/api/files", {
-        method: "POST",
-        body: data,
-      })
-      const signedUrl = await uploadRequest.json()
-      changeUrl(signedUrl)
-      setUploading(false)
-    } catch (e) {
-      console.log(e)
-      setUploading(false)
-      alert("Trouble uploading file")
-    }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target?.files?.[0])
-  }
 
   return (
-    <main className="w-full border rounded-lg p-5 m-auto flex flex-col justify-center items-center">
+    <div className="w-full border rounded-lg p-5 m-auto flex flex-col justify-center items-center">
       {/* {type === "placeholder" && (
         <div>
           {urlPlaceholder && (
@@ -102,10 +65,10 @@ export default function UploadFile({
         </div>
       )} */}
 
-      <input type="file" onChange={handleChange} className="" />
+      {/* <input type="file" onChange={handleChange} className="" /> */}
 
       <div>
-        <button
+        {/* <button
           type="button"
           disabled={uploading}
           onClick={uploadFile}
@@ -114,7 +77,21 @@ export default function UploadFile({
           }`}
         >
           {uploading ? "Uploading..." : "Upload"}
-        </button>
+        </button> */}
+        <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  changeUrl(res[0].appUrl)
+    
+        
+                  alert("Upload Completed");
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
       </div>
 
       {/* {type === "placeholder" ? (
@@ -146,6 +123,6 @@ export default function UploadFile({
           </button>
         </div>
       )} */}
-    </main>
+    </div>
   )
 }

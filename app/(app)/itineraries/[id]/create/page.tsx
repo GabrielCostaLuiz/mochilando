@@ -116,10 +116,10 @@ const CreateRoute = () => {
   }
 
   const onSubmit = async (data: any) => {
-    // if (photos.length === 0) {
-    //   alert("Por favor, adicione pelo menos uma foto")
-    //   return
-    // }
+    if (photos.length === 0) {
+      alert("Por favor, adicione pelo menos uma foto")
+      return
+    }
 
     const minPrice = calculateMinPrice(data.transportSteps)
     const maxPrice = calculateMaxPrice(data.transportSteps)
@@ -288,8 +288,7 @@ console.log(urlPlaceholder)
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           // Do something with the response
-          console.log("Files: ", res);
-          console.log("url: ", res[0].appUrl)
+          
 setUrlPlaceholder({
  url: res[0].appUrl,
   groupdId: "groupid"
@@ -318,7 +317,7 @@ setUrlPlaceholder({
                           changeUrl={(url: any) =>
                             handlePhotoChange(index, url)
                           }
-                          groupId={urlPlaceholder.groupId}
+                        
                         />
                       ))}
                     </div>

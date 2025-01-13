@@ -200,7 +200,7 @@ const CreateRoute = () => {
           <h1 className="text-2xl font-bold mb-6">Criar Novo Roteiro</h1>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid max-md:grid-cols-1 grid-cols-2 gap-4">
               <div>
                 <label className="block font-medium mb-2">Origem</label>
                 <div className="flex items-center gap-2">

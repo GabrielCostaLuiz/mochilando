@@ -5,8 +5,8 @@ import { NextResponse, type NextRequest } from "next/server"
 export async function POST(request: NextRequest) {
   try {
     const { routeData } = await request.json()
- 
 
+    console.log(routeData)
     let path = await prisma.path.findFirst({
       where: {
         AND: [
@@ -31,7 +31,6 @@ export async function POST(request: NextRequest) {
       })
     }
 
-  
     const newRoute = await prisma.route.create({
       data: {
         title: routeData.title,
@@ -59,7 +58,7 @@ export async function POST(request: NextRequest) {
         userId: routeData.userId,
         photos: routeData.photos
           ? {
-              create: routeData.photos.map((url: {url: string}) => ({
+              create: routeData.photos.map((url: { url: string }) => ({
                 url: [url.url],
                 userId: routeData.userId,
               })),

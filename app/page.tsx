@@ -1,4 +1,4 @@
-import Footer from "@/components/footer"
+// import Footer from "@/components/footer"
 import LandingPage from "@/components/page/landingpage"
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
       <main>
         <LandingPage />
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }

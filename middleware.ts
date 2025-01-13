@@ -10,7 +10,7 @@ const { auth } = NextAuth(authConfig)
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Autenticação na rota /auth
+ 
   if (pathname.startsWith("/auth")) {
     const session = await auth()
 
@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Proteção da rota /profile
+ 
   if (pathname.startsWith("/profile")) {
     const session = await auth()
     if (!session) {
@@ -27,7 +27,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Proteção e validação de ID na rota /itineraries/id/create
   if (pathname.startsWith("/itineraries/")) {
     const session = await auth()
 
@@ -46,7 +45,7 @@ export async function middleware(request: NextRequest) {
       const idFromPath = match[1] 
       const sessionId = data.prismaUser.id 
 
-      // Se o ID na URL não for igual ao da sessão, redireciona para /profile
+    
       if (idFromPath !== sessionId) {
         return NextResponse.redirect(
           new URL(`/itineraries/${sessionId}/create`, request.url)

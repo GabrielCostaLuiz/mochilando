@@ -1,7 +1,7 @@
 import React from "react"
-import { MapPin, DollarSign, Bus, Star, Users } from "lucide-react"
+import { MapPin,  Bus,  Users } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
+
 
 export default function LandingPage() {
   const features = [
@@ -25,12 +25,12 @@ export default function LandingPage() {
     },
   ]
 
-  const benefits = [
-    "Economize até 60% em suas viagens",
-    "Descubra lugares autênticos fora do circuito turístico",
-    "Planeje viagens sustentáveis sem depender de carro",
-    "Conecte-se com viajantes e moradores locais",
-  ]
+  // const benefits = [
+  //   "Economize até 60% em suas viagens",
+  //   "Descubra lugares autênticos fora do circuito turístico",
+  //   "Planeje viagens sustentáveis sem depender de carro",
+  //   "Conecte-se com viajantes e moradores locais",
+  // ]
 
   return (
     <div className="min-h-screen bg-white">
@@ -39,7 +39,7 @@ export default function LandingPage() {
           <div className="flex justify-between items-center">
             <div className="font-bold text-xl text-blue-600 flex gap-2 items-center">
           
-              <p className="">Mochilada</p>
+              <p className="">Mochilando</p>
             </div>
             <Link
               href="/explorer"
@@ -53,7 +53,7 @@ export default function LandingPage() {
 
       <div className="pt-24 pb-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <span className="bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium">
                 Beta Gratuito 🚀
@@ -113,7 +113,45 @@ export default function LandingPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+
+          <div className="space-y-8">
+              <span className="bg-blue-100 text-blue-600 px-4 py-2 rounded-full text-sm font-medium">
+                Beta Gratuito 🚀
+              </span>
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+                Viaje mais gastando menos com dicas de
+                <span className="text-blue-600"> quem conhece</span>
+              </h1>
+              <p className="text-xl text-gray-600">
+                Planeje viagens econômicas com roteiros compartilhados por
+                locais. Descubra como explorar cada destino usando transporte
+                público e dicas da comunidade.
+              </p>
+              <div className="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
+                <button className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors">
+                  Criar Conta Grátis
+                </button>
+                <button className="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-colors">
+                  Ver Como Funciona
+                </button>
+              </div>
+              {/* <div className="flex items-center gap-4 text-sm text-gray-600">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map((i) => (
+                    <Image
+                      width={600}
+                      height={400}
+                      alt="User Avatar"
+                      key={i}
+                      src={`/api/placeholder/32/32`}
+                      className="w-8 h-8 rounded-full border-2 border-white"
+                    />
+                  ))}
+                </div>
+                <p>+100 viajantes já estão usando</p>
+              </div> */}
+            </div>
         </div>
       </div>
 
@@ -142,7 +180,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div className="py-16">
+      {/* <div className="py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -196,7 +234,7 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="bg-blue-600 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">

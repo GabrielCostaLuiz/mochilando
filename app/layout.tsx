@@ -14,30 +14,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-// Metadata for the page
+
 export const metadata: Metadata = {
   title: {
-    default: "Mochilada - Viagens Econômicas",
-    template: "%s | Mochilada - Viagens Econômicas",
+    default: "Mochilando - Viagens Econômicas",
+    template: "%s | Mochilando - Viagens Econômicas",
   },
-  description: "Mochilada: Roteiros econômicos para sua próxima aventura",
+  description: "Mochilando: Roteiros econômicos para sua próxima aventura",
   openGraph: {
-    title: "Mochilada - Viagens Econômicas",
+    title: "Mochilando - Viagens Econômicas",
     description:
       "Encontre os melhores roteiros de viagem baratos e dicas para curtir com pouco dinheiro",
     images: [
       {
-        url: "/images/og-image.jpg", // Optional: Image for social sharing
+        url: "/images/og-image.jpg",  
         width: 1200,
         height: 630,
-        alt: "Mochilada - Viagens Econômicas",
+        alt: "Mochilando - Viagens Econômicas",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@MochiladaApp",
-    title: "Mochilada - Viagens Econômicas",
+    site: "@MochilandoApp",
+    title: "Mochilando - Viagens Econômicas",
     description:
       "Encontre os melhores roteiros de viagem baratos e dicas para curtir com pouco dinheiro",
   },
@@ -51,7 +51,7 @@ export default async function RootLayout({
   return (
     <html lang="pt-BR">
       <Head>
-        <meta name="apple-mobile-web-app-title" content="Mochilada" />
+        <meta name="apple-mobile-web-app-title" content="Mochilando" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
       <body

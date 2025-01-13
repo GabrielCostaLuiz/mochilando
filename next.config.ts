@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        hostname: "moccasin-fancy-heron-222.mypinata.cloud",
+      },
     ],
   },
 }

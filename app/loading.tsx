@@ -1,4 +1,8 @@
-export default function Loading() {
+import LoadingUI from "@/components/loading"
 
-    return <p>Loading...</p>
-  }
+export default function Loading() {
+  return (
+    /* From Uiverse.io by Nawsome */
+    <LoadingUI />
+  )
+}

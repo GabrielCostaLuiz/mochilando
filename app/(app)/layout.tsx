@@ -1,16 +1,12 @@
-import Footer from "@/components/footer"
+// import Footer from "@/components/footer"
 import NavBar from "@/components/navBar"
 import Providers from "./providers"
-
-
-
 
 export default async function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-
   return (
     <>
       <Providers>
@@ -20,8 +16,7 @@ export default async function AppLayout({
         <main>
           <div className={`antialiased`}>{children}</div>
         </main>
-        <Footer />
-
+        {/* <Footer /> */}
       </Providers>
     </>
   )

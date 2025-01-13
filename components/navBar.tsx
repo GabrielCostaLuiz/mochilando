@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import {
   DropdownMenu,
@@ -19,7 +20,7 @@ export default function NavBar() {
   const [image, setImage] = useState("/avatarDefault.png")
   const { data: session } = useSession()
   const path = usePathname()
-
+  const router = useRouter()
 
   useEffect(() => {
     if (session?.user?.image) {
@@ -27,6 +28,13 @@ export default function NavBar() {
     }
   }, [session])
 
+  async function handleLogoutGoogle(e: any) {
+    e.preventDefault()
+
+    await fetch("/api/auth/logout")
+
+    router.push("/")
+  }
 
   return (
     <nav
@@ -65,7 +73,7 @@ export default function NavBar() {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
-                    <FormLogout />
+                    <FormLogout logout={handleLogoutGoogle} />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

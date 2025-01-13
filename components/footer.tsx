@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <h3 className="font-bold text-lg mb-4">Mochilada</h3>
+            <h3 className="font-bold text-lg mb-4">Mochilando</h3>
             <p className="text-gray-600">
               Viaje mais, gaste menos, explore melhor.
             </p>
@@ -61,7 +61,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-200 mt-12 pt-8 text-center text-gray-600">
-          <p>© 2025 Mochilada. Todos os direitos reservados.</p>
+          <p>© 2025 Mochilando. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

@@ -3,5 +3,6 @@ import { signOut } from "@/lib/authjs/auth"
 
 export async function GET() {
   // await cookies()
-  await signOut({ redirect: true, redirectTo: "/explorer" })
+
+  await signOut({ redirect: true, redirectTo: "/" })
 }

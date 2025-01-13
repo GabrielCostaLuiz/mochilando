@@ -16,11 +16,20 @@ model User {
   slug          String?
   accounts      Account[]
   sessions      Session[]
-  // Optional for WebAuthn support
   Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+
+  routes   Route[]
+  roles    Role[]
+  comments Comment[]
+  photo    Photo[]
+
+ 
+  savedRoutes SavedRoute[]
+  savedRoles  SavedRole[]
 }
 
 model Account {
@@ -65,7 +74,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-// Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @id @map("_id")
   userId               String  @db.ObjectId
@@ -79,4 +87,136 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, credentialID])
+}
+
+model Route {
+  id                  String         @id @default(auto()) @map("_id") @db.ObjectId
+  title               String
+  description         String
+  groupIdPinataImages String
+  pathId              String         @db.ObjectId
+  path                Path           @relation(fields: [pathId], references: [id])
+  routeDetails        RouteDetails[]
+  costs               Float?
+  minPrice            Float?
+  maxPrice            Float?
+  tips                String[]
+  placeholderUrl      String
+  steps               Steps[]
+  photos              Photo[]
+  likes               Int            @default(0)
+  userId              String         @db.ObjectId
+  user                User           @relation(fields: [userId], references: [id])
+  roles               Role[]
+  comments            Comment[]
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+
+  savedBy SavedRoute[]
+}
+
+model RouteDetails {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId 
+  title    String
+  price    Float
+  duration String
+  details  String
+  routeId  String? @db.ObjectId
+  route    Route?  @relation(fields: [routeId], references: [id])
+  role     Role?   @relation(fields: [roleId], references: [id])
+  roleId   String? @db.ObjectId
+}
+
+model Path {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId 
+  origin      String
+  destination String
+  routes      Route[] 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  roles       Role[]
+}
+
+model Steps {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  Route       Route?  @relation(fields: [routeId], references: [id])
+  routeId     String? @db.ObjectId
+}
+
+model Role {
+  id                  String         @id @default(auto()) @map("_id") @db.ObjectId
+  title               String
+  description         String
+  groupIdPinataImages String
+  pathId              String         @db.ObjectId
+  path                Path           @relation(fields: [pathId], references: [id])
+  routeDetails        RouteDetails[]
+  placeholderUrl      String
+  costs               Float?
+  tips                String[]
+  photos              Photo[]
+  likes               Int            @default(0)
+  userId              String         @db.ObjectId
+  user                User           @relation(fields: [userId], references: [id])
+  routeId             String?        @db.ObjectId
+  route               Route?         @relation(fields: [routeId], references: [id])
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  comments            Comment[]
+
+
+  savedBy SavedRole[]
+}
+
+
+model SavedRoute {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  routeId   String   @db.ObjectId    
+  savedAt   DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  route Route @relation(fields: [routeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, routeId])
+}
+
+
+model SavedRole {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String   @db.ObjectId
+  roleId  String   @db.ObjectId
+  savedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  content   String
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  routeId   String?  @db.ObjectId
+  route     Route?   @relation(fields: [routeId], references: [id])
+  roleId    String?  @db.ObjectId
+  role      Role?    @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Photo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  url       String[]
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  routeId   String?  @db.ObjectId
+  route     Route?   @relation(fields: [routeId], references: [id])
+  roleId    String?  @db.ObjectId
+  role      Role?    @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
 }

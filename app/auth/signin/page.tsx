@@ -4,7 +4,7 @@ export default function SignIn() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        {/* Header */}
+   
         <div className="text-center">
           <h1 className="mt-6 text-3xl font-bold text-gray-900">
             Bem-vindo de volta
@@ -14,7 +14,7 @@ export default function SignIn() {
           </p>
         </div>
 
-        {/* Sign In Form */}
+    
         <form
           action={async () => {
             "use server"
@@ -23,13 +23,13 @@ export default function SignIn() {
           className="mt-8 space-y-6"
         >
           <div className="space-y-4">
-            {/* Google Sign In Button */}
+        
             <button
               type="submit"
               className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label="Fazer login com Google"
             >
-              {/* Google Icon */}
+           
               <svg className="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
                 <path
                   fill="#4285F4"
@@ -50,7 +50,7 @@ export default function SignIn() {
               </svg>
             </button>
 
-            {/* Email Sign In Button - For future implementation */}
+          
             <button
               type="button"
               disabled
@@ -76,7 +76,7 @@ export default function SignIn() {
           </div>
         </form>
 
-        {/* Terms and Privacy */}
+     
         <p className="mt-6 text-center text-xs text-gray-600">
           Ao continuar, você concorda com nossos{" "}
           <a

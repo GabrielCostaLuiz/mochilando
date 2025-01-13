@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const email = searchParams.get("email")
   try {
-    // Consulta no banco de dados pelo e-mail
+
     const prismaUser = await prisma.user.findFirst({
       where: {
         email: email,
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
 
 
-    // Retorna os dados do usuário autenticado e do Prisma
+
     return NextResponse.json({
       message: "User authenticated successfully",
       prismaUser,

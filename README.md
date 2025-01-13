@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 **Economize nas Viagens - Planejador de Roteiros Econômicos**  
 
-## Getting Started
+**Economize nas Viagens** é uma plataforma desenvolvida para ajudar pessoas a viajarem gastando pouco. Oferecemos roteiros detalhados, dicas valiosas e opções econômicas de transporte, tudo pensado para facilitar o planejamento de viagens acessíveis e compartilhadas.  
 
-First, run the development server:
+## 🚀 **Funcionalidades**  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 📋 **Roteiros Personalizados**  
+  Roteiros completos com informações sobre custos, dicas e passos detalhados do ponto de origem ao destino.  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🚎 **Opções de Transporte**  
+  Alternativas econômicas como ônibus, caronas compartilhadas ou carro próprio, com preços e detalhes sobre o trajeto.  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🛣️ **Passo a Passo Completo**  
+  Instruções detalhadas para cada etapa da viagem, desde o planejamento até a chegada ao destino.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 💡 **Dicas Úteis**  
+  Sugestões para economizar dinheiro, aproveitar melhor a experiência e evitar imprevistos.  
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 **Objetivo do Projeto**  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Promover viagens econômicas e enriquecedoras, permitindo que viajantes planejem suas aventuras de forma prática e acessível. Com o apoio da comunidade, os roteiros se tornam ainda mais confiáveis e úteis.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---

@@ -1,74 +1,145 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client'
+import React, { useState } from 'react';
+import { useForm, useFieldArray } from "react-hook-form";
+import { MapPin, Plus, ChevronLeft, Save, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import UploadPlaceholder from "@/components/uploadPlaceholder";
+import UploadFile from "@/components/uploadFile";
+import { useSession } from 'next-auth/react';
 
-import React, { useState } from "react"
-import {
-  MapPin,
-  Clock,
-  DollarSign,
-  Camera,
-  Plus,
-  ChevronLeft,
-  Save,
+const CreateRoute = () => {
+  const router = useRouter();
+  const {data: session} = useSession()
+  const [photos, setPhotos] = useState([]);
+  const [urlPlaceholder, setUrlPlaceholder] = useState<any>();
 
-} from "lucide-react"
-// import { useRouter } from "next/navigation"
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      origin: "",
+      destination: "",
+      description: "",
+      transportSteps: [{
+        title: "",
+        price: "",
+        duration: "",
+        details: ""
+      }],
+      steps: [{
+        title: "",
+        description: ""
+      }],
+      tips: [{
+        description: ""
+      }]
+    }
+  });
+
+  const origin = watch("origin");
+  const destination = watch("destination");
 
 
-import { useRouter } from "next/navigation"
+  React.useEffect(() => {
+    if (origin && destination) {
+      setValue("title", `${origin} → ${destination}`);
+    }
+  }, [origin, destination, setValue]);
 
-export default function CreateRoute() {
 
-  
+  const handlePhotoChange = (index: number, url: string) => {
+    const newPhotos: any = [...photos];
+    newPhotos[index] = url;
+    setPhotos(newPhotos);
+  };
 
-  // if (id !== session?.user?.id) {
-  //   return (
-  //     <div className="min-h-screen bg-gray-50">
-  //       <div className="container mx-auto px-4 py-8">
-  //         <div className="max-w-4xl mx-auto">
-  //           <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-  //             <div className="text-center">
-  //               <h1 className="text-2xl font-bold text-gray-900">
-  //                 Você não está logado
-  //               </h1>
-  //               <p className="text-gray-500 mt-2">
-  //                 Para acessar essa página, você precisa estar logado.
-  //               </p>
-  //               <Link
-  //                 href="/auth/signin"
-  //                 className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-  //               >
-  //                 Fazer Login
-  //               </Link>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   )
-  // }
 
-  const router = useRouter()
-  const [transportSteps, setTransportSteps] = useState([
-    { title: "", price: "", duration: "", details: "" },
-  ])
-  const [routeSteps, setRouteSteps] = useState([{ title: "", description: "" }])
-  const [tips, setTips] = useState([""])
-  // const [images, setImages] = useState([])
+  const { fields: transportFields, append: addTransportStep, remove: removeTransportStep } = useFieldArray({
+    control,
+    name: "transportSteps",
+  });
 
-  const addTransportStep = () => {
-    setTransportSteps([
-      ...transportSteps,
-      { title: "", price: "", duration: "", details: "" },
-    ])
-  }
+  const { fields: stepFields, append: addStep, remove: removeStep } = useFieldArray({
+    control,
+    name: "steps",
+  });
 
-  const addRouteStep = () => {
-    setRouteSteps([...routeSteps, { title: "", description: "" }])
-  }
+  const { fields: tipsFields, append: addTip, remove: removeTip } = useFieldArray({
+    control,
+    name: "tips",
+  });
 
-  const addTip = () => {
-    setTips([...tips, ""])
-  }
+  // const calculateTotalPrice = (transportSteps) => {
+  //   return transportSteps.reduce((total, step) => {
+  //     return total + (parseFloat(step.price) || 0);
+  //   }, 0);
+  // };
+
+
+  const calculateMinPrice = (transportSteps: any) => {
+    return transportSteps.reduce((minPrice: any, step: any) => {
+      const stepPrice = parseFloat(step.price) || 0;
+      return stepPrice < minPrice ? stepPrice : minPrice;
+    }, Infinity); 
+  };
+
+  const calculateMaxPrice = (transportSteps: any) => {
+    return transportSteps.reduce((maxPrice: any, step: any) => {
+      const stepPrice = parseFloat(step.price) || 0;
+      return stepPrice > maxPrice ? stepPrice : maxPrice;
+    }, -Infinity); 
+  };
+
+  const onSubmit = async (data: any) => {
+    if (photos.length === 0) {
+      alert("Por favor, adicione pelo menos uma foto");
+      return;
+    }
+
+    const minPrice = calculateMinPrice(data.transportSteps);
+    const maxPrice = calculateMaxPrice(data.transportSteps)
+    const filteredTips = data.tips.filter((tip: string) => tip.trim() !== "");
+
+    const routeData = {
+      title: `${data.origin} → ${data.destination}`,
+      path: {
+        origin: data.origin,
+        destination: data.destination,
+      },
+      description: data.description,
+      placeholderUrl: urlPlaceholder.url,
+      groupIdPinataImages: urlPlaceholder.groupId,
+      userId: session?.user?.id,
+      photos: photos,
+      transportSteps: data.transportSteps,
+      steps: data.steps,
+      tips: filteredTips,
+      minPrice: minPrice,
+      maxPrice: maxPrice
+    };
+
+    try {
+      const response = await fetch("/api/createRoute", {
+        method: "POST",
+        body: JSON.stringify({ routeData }),
+      });
+      
+      const { data: responseData } = await response.json();
+      if (response.ok) {
+        router.push(`/itineraries/${responseData.id}`);
+      }
+    } catch (error) {
+      console.error("Error creating route:", error);
+      alert("Erro ao criar roteiro. Tente novamente.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -81,7 +152,10 @@ export default function CreateRoute() {
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2">
+            <button
+              onClick={handleSubmit(onSubmit)}
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
+            >
               <Save className="w-5 h-5" />
               Salvar Roteiro
             </button>
@@ -93,169 +167,221 @@ export default function CreateRoute() {
         <div className="bg-white rounded-xl p-6 mb-6">
           <h1 className="text-2xl font-bold mb-6">Criar Novo Roteiro</h1>
 
-          <div className="space-y-6">
-            <div>
-              <label className="block font-medium mb-2">
-                Título do Roteiro
-              </label>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-blue-600" />
-                <input
-                  type="text"
-                  className="flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                  placeholder="Ex: São Paulo → Rio de Janeiro"
-                />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block font-medium mb-2">Origem</label>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <input
+                    type="text"
+                    {...register("origin", { required: "Origem é obrigatória" })}
+                    className="flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    placeholder="Ex: São Paulo"
+                  />
+                </div>
+                {errors.origin && (
+                  <p className="text-red-500 text-sm">{errors.origin.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block font-medium mb-2">Destino</label>
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  <input
+                    type="text"
+                    {...register("destination", { required: "Destino é obrigatório" })}
+                    className="flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    placeholder="Ex: Rio de Janeiro"
+                  />
+                </div>
+                {errors.destination && (
+                  <p className="text-red-500 text-sm">{errors.destination.message}</p>
+                )}
               </div>
             </div>
 
+   
             <div>
               <label className="block font-medium mb-2">Descrição</label>
               <textarea
+                {...register("description", { required: "Descrição é obrigatória" })}
                 className="w-full p-3 border rounded-lg h-24 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 placeholder="Descreva seu roteiro..."
               />
+              {errors.description && (
+                <p className="text-red-500 text-sm">{errors.description.message}</p>
+              )}
             </div>
+
+         
+            <div>
+              <label className="block font-medium mb-2">Imagem de Capa</label>
+              <UploadPlaceholder
+                urlPlaceholder={urlPlaceholder ?? ""}
+                changeUrl={(url: any) => setUrlPlaceholder(url)}
+                groupName={{ name: `${origin} -> ${destination}`, on: origin !== "" && destination !== "" }}
+              />
+            </div>
+
+    
+            <div>
+            {urlPlaceholder && (
+              <>
+              <label className="block font-medium mb-2">
+                Fotos do Lugar (mínimo 1, máximo 3)
+              </label>
+              <div className="space-y-4">
+                
+                  <div className="space-y-4">
+                    {[0, 1, 2].map((index) => (
+                      <UploadFile
+                        key={index}
+                        urlPhoto={photos[index]}
+                        changeUrl={(url: any) => handlePhotoChange(index, url)}
+                        groupId={urlPlaceholder.groupId}
+                      />
+                ))}
+                    
+                  </div>
+              </div>
+              </>
+            )}
+            </div>
+
 
             <div>
               <label className="block font-medium mb-2">
-                Informações Básicas
+                Opções de Transporte (mínimo 1)
               </label>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-gray-600" />
-                  <input
-                    type="text"
-                    className="flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                    placeholder="Duração (ex: 8h)"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <DollarSign className="w-5 h-5 text-gray-600" />
-                  <input
-                    type="text"
-                    className="flex-grow p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                    placeholder="Custo Total (ex: R$ 280)"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label className="block font-medium mb-2">Fotos do Roteiro</label>
-              <div className="grid grid-cols-3 gap-2 mb-4">
-                {[1, 2, 3].map((index) => (
-                  <div
-                    key={index}
-                    className="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors"
-                  >
-                    <Camera className="w-8 h-8 text-gray-400" />
+              <div className="space-y-4">
+                {transportFields.map((field, index) => (
+                  <div key={field.id} className="relative p-4 bg-gray-50 rounded-lg">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-4">
+                        <input
+                          type="text"
+                          {...register(`transportSteps.${index}.title`, { required: "Título é obrigatório" })}
+                          className="w-full p-3 border rounded-lg"
+                          placeholder="Título (ex: Ônibus Executivo)"
+                        />
+                        <input
+                          type="text"
+                          {...register(`transportSteps.${index}.details`)}
+                          className="w-full p-3 border rounded-lg"
+                          placeholder="Detalhes"
+                        />
+                      </div>
+                      <div className="space-y-4">
+                        <input
+                          type="number"
+                          {...register(`transportSteps.${index}.price`, { required: "Preço é obrigatório" })}
+                          className="w-full p-3 border rounded-lg"
+                          placeholder="Preço"
+                        />
+                        <input
+                          type="time"
+                          {...register(`transportSteps.${index}.duration`, { required: "Duração é obrigatória" })}
+                          className="w-full p-3 border rounded-lg"
+                          placeholder="Duração"
+                        />
+                      </div>
+                    </div>
+                    {transportFields.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeTransportStep(index)}
+                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
                   </div>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => addTransportStep({ title: "", price: "", duration: "", details: "" })}
+                  className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                >
+                  <Plus className="w-4 h-4" /> Adicionar Transporte
+                </button>
               </div>
             </div>
 
+     
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-medium">Opções de Transporte</label>
-                <button
-                  onClick={addTransportStep}
-                  className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                >
-                  <Plus className="w-4 h-4" />
-                  Adicionar
-                </button>
-              </div>
+              <label className="block font-medium mb-2">Passo a Passo</label>
               <div className="space-y-4">
-                {transportSteps.map((step, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg"
-                  >
-                    <div className="space-y-4">
-                      <input
-                        type="text"
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                        placeholder="Título (ex: Ônibus Executivo)"
-                      />
-                      <input
-                        type="text"
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                        placeholder="Detalhes"
-                      />
-                    </div>
-                    <div className="space-y-4">
-                      <input
-                        type="text"
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                        placeholder="Preço"
-                      />
-                      <input
-                        type="text"
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                        placeholder="Duração"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-medium">Passo a Passo</label>
-                <button
-                  onClick={addRouteStep}
-                  className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                >
-                  <Plus className="w-4 h-4" />
-                  Adicionar
-                </button>
-              </div>
-              <div className="space-y-4">
-                {routeSteps.map((step, index) => (
-                  <div key={index} className="border-l-2 border-blue-600 pl-4">
+                {stepFields.map((field, index) => (
+                  <div key={field.id} className="relative p-4 bg-gray-50 rounded-lg">
                     <input
                       type="text"
-                      className="w-full p-3 border rounded-lg mb-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      {...register(`steps.${index}.title`, { required: "Título é obrigatório" })}
+                      className="w-full p-3 border rounded-lg mb-4"
                       placeholder="Título do passo"
                     />
                     <textarea
-                      className="w-full p-3 border rounded-lg h-24 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      {...register(`steps.${index}.description`, { required: "Descrição é obrigatória" })}
+                      className="w-full p-3 border rounded-lg h-24"
                       placeholder="Descrição detalhada do passo"
                     />
+                    <button
+                      type="button"
+                      onClick={() => removeStep(index)}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => addStep({ title: "", description: "" })}
+                  className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                >
+                  <Plus className="w-4 h-4" /> Adicionar Passo
+                </button>
               </div>
             </div>
 
+   
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="font-medium">Dicas Importantes</label>
-                <button
-                  onClick={addTip}
-                  className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
-                >
-                  <Plus className="w-4 h-4" />
-                  Adicionar
-                </button>
-              </div>
+              <label className="block font-medium mb-2">Dicas (Opcional)</label>
               <div className="space-y-4">
-                {tips.map((tip, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <div className="w-5 h-5 mt-3 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span className="text-blue-600 text-sm">{index + 1}</span>
-                    </div>
+                {tipsFields.map((field, index) => (
+                  <div key={field.id} className="relative">
                     <textarea
-                      className="flex-grow p-3 border rounded-lg h-24 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      {...register(`tips.${index}.description`)}
+                      className="w-full p-3 border rounded-lg h-24"
                       placeholder="Digite uma dica importante..."
                     />
+                    <button
+                      type="button"
+                      onClick={() => removeTip(index)}
+                      className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => addTip({
+                    description: ""
+                  })}
+                  className="text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                >
+                  <Plus className="w-4 h-4" /> Adicionar Dica
+                </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default CreateRoute;

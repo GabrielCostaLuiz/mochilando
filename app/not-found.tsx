@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="max-w-md w-full text-center space-y-8">
-        {/* 404 Number */}
+      
         <div className="relative">
           <h1 className="text-9xl font-bold text-gray-200">404</h1>
           <div className="absolute inset-0 flex items-center justify-center">
@@ -14,7 +14,7 @@ export default function NotFound() {
           </div>
         </div>
 
-        {/* Message */}
+    
         <div className="space-y-3">
           <h2 className="text-2xl font-semibold text-gray-900">
             Página não encontrada
@@ -25,7 +25,7 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* Action Buttons */}
+  
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             href="/"
@@ -43,7 +43,7 @@ export default function NotFound() {
           </button>
         </div>
 
-        {/* Help Links */}
+      
         <div className="text-sm text-gray-500">
           <p>Precisa de ajuda?</p>
           <div className="mt-2 space-x-4">

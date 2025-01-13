@@ -1,3 +1,4 @@
+
 import NextAuth from "next-auth"
 
 // import { firebaseCert } from "../firebase/firebase"
@@ -7,6 +8,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import { authConfig } from "./auth.config"
 import { prisma } from "@/lib/prisma"
+
 
 export async function getUserId(email: string) {
   const user = await prisma.user.findFirst({
@@ -31,6 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   events: {
     createUser: async ({ user }) => {
       console.log("usuario criado ", user)
+    },
+    signOut: async ({}) => {
+      console.log("saindo do app")
     },
   },
   //   linkAccount: async ({ account, profile, user }) => {
@@ -66,7 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   //     }
   //   },
   // },
-  //  By default, the `id` property does not exist on `token` or `session`. See the [TypeScript](https://authjs.dev/getting-started/typescript) on how to add it.
+  
   //   callbacks: {
   //     jwt({ token, user,account,profile,session,trigger }) {
   //       console.log("token", token)

@@ -6,7 +6,6 @@ export async function POST(request: NextRequest) {
   try {
     const { routeData } = await request.json()
 
-    console.log(routeData)
     let path = await prisma.path.findFirst({
       where: {
         AND: [

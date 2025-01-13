@@ -2,17 +2,19 @@
 "use client"
 import React, { useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
-import { MapPin, Plus, ChevronLeft, Save, X } from "lucide-react"
+import { MapPin, Plus, ChevronLeft, Save, X, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import UploadPlaceholder from "@/components/uploadPlaceholder"
 import UploadFile from "@/components/uploadFile"
 import { useSession } from "next-auth/react"
+import clsx from "clsx"
 
 const CreateRoute = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const [photos, setPhotos] = useState([])
   const [urlPlaceholder, setUrlPlaceholder] = useState<any>()
+  const [loading, setLoading] = useState(false)
 
   const {
     register,
@@ -142,6 +144,7 @@ const CreateRoute = () => {
     }
 
     try {
+      setLoading(true)
       const response = await fetch("/api/createRoute", {
         method: "POST",
         body: JSON.stringify({ routeData }),
@@ -154,6 +157,8 @@ const CreateRoute = () => {
     } catch (error) {
       console.error("Error creating route:", error)
       alert("Erro ao criar roteiro. Tente novamente.")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -170,10 +175,21 @@ const CreateRoute = () => {
             </button>
             <button
               onClick={handleSubmit(onSubmit)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
+              disabled={loading}
+              className={clsx(
+                " text-white px-6 py-2 rounded-lg font-medium  transition-colors flex items-center gap-2",
+                {
+                  "bg-orange-600 opacity-50 cursor-not-allowed": loading,
+                  "bg-blue-600 hover:bg-blue-700": !loading,
+                }
+              )}
             >
-              <Save className="w-5 h-5" />
-              Salvar Roteiro
+              {loading ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Save className="w-5 h-5" />
+              )}
+              {loading ? "Salvando Roteiro" : "Salvar Roteiro"}
             </button>
           </div>
         </div>

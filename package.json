@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "push:github": "git push origin HEAD:bdbd7e2"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { prisma } from "@/lib/prisma"
+import { randomUUID } from "crypto"
 import { NextResponse, type NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
         title: routeData.title,
         pathId: path.id,
         description: routeData.description,
-        groupIdPinataImages: routeData.groupIdPinataImages,
+        groupIdPinataImages: randomUUID(),
         routeDetails: {
           create: routeData.transportSteps.map((data: any) => ({
             title: data.title,

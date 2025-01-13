@@ -14,7 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-
 export const metadata: Metadata = {
   title: {
     default: "Mochilando - Viagens Econômicas",
@@ -25,21 +24,37 @@ export const metadata: Metadata = {
     title: "Mochilando - Viagens Econômicas",
     description:
       "Encontre os melhores roteiros de viagem baratos e dicas para curtir com pouco dinheiro",
+    type: "website",
+    locale: "pt_BR",
+    url: "https://mochilando.vercel.app/",
+    siteName: "Mochilando - Viagens Econômicas",
     images: [
       {
-        url: "/images/og-image.jpg",  
+        url: "https://mochilando.vercel.app/placeholder.png",
         width: 1200,
         height: 630,
         alt: "Mochilando - Viagens Econômicas",
       },
     ],
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   twitter: {
     card: "summary_large_image",
-    site: "@MochilandoApp",
+    site: "https://mochilando.vercel.app/",
     title: "Mochilando - Viagens Econômicas",
     description:
       "Encontre os melhores roteiros de viagem baratos e dicas para curtir com pouco dinheiro",
+    images: ["https://mochilando.vercel.app/placeholder.png"],
   },
 }
 

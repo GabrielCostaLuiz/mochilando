@@ -153,7 +153,7 @@ const CreateRoute = () => {
 
       const { data: responseData } = await response.json()
       if (response.ok) {
-        router.push(/itineraries/${responseData.id})
+        router.push(`/itineraries/${responseData.id}`)
       }
     } catch (error) {
       console.error("Error creating route:", error)

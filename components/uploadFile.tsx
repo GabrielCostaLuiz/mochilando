@@ -32,7 +32,7 @@ export default function UploadFile({
       {urlPhoto && (
         <div className="w-full h-96 relative mb-5">
           <Image
-            src={urlPhoto.url}
+            src={urlPhoto}
             alt="Image from Pinata"
             crossOrigin="anonymous"
             fill

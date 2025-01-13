@@ -1,8 +1,6 @@
 "use client"
-import React, {  useState } from "react"
+import React, { useState } from "react"
 import { Search } from "lucide-react"
-
-
 
 import GridCards from "../gridCards"
 export default function ExplorerContent() {
@@ -70,7 +68,7 @@ export default function ExplorerContent() {
   //   },
   // ]
   return (
-    <div className="min-h-[60vh] bg-gray-50 flex flex-col">
+    <div className="min-h-[93vh] bg-gray-50 flex flex-col  ">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex gap-4 mb-6">
@@ -89,7 +87,7 @@ export default function ExplorerContent() {
             </button> */}
           </div>
 
-          <div className="flex gap-4 border-b">
+          <div className="flex  gap-4 border-b">
             <button
               onClick={() => setActiveTab("routes")}
               className={`pb-4 px-4 font-medium ${
@@ -114,8 +112,8 @@ export default function ExplorerContent() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-6 min-h-max  flex flex-grow ">
-        <div className="  min-h-max flex flex-grow">
+      <div className="  container mx-auto py-6   ">
+        <div className="  w-full ">
           <GridCards activeTab={activeTab} filter={filter} />
 
           {/* {activeTab === "routes"

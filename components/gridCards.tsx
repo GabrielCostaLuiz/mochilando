@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import RouteCard from "./routeCard"
-import {  Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 
 export default function GridCards({
   activeTab,
@@ -25,7 +25,7 @@ export default function GridCards({
             throw new Error("Erro ao buscar os roles")
           }
           const roles = await response.json()
-       
+
           setData(roles)
         } else {
           const response = await fetch("/api/getItineraries")
@@ -33,7 +33,7 @@ export default function GridCards({
             throw new Error("Erro ao buscar os roteiros")
           }
           const { itineraries } = await response.json()
-       
+
           setData(itineraries)
         }
       } catch (error) {
@@ -64,9 +64,13 @@ export default function GridCards({
           <Loader2 className="animate-spin" size={50} />
         </div>
       ) : (
-        <div className="flex flex-wrap gap-6 items-center   w-full">
+        <div>
           {filtered.length > 0 ? (
-            data.map((item) => <RouteCard route={item} key={item.id} />)
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-10 px-10">
+              {data.map((item) => {
+                return <RouteCard route={item} key={item.id} />
+              })}
+            </div>
           ) : (
             <div>
               <h3>Nenhum roteiro disponível</h3>

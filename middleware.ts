@@ -4,13 +4,13 @@ import type { NextRequest } from "next/server"
 import { authConfig } from "./lib/authjs/auth.config"
 import NextAuth from "next-auth"
 
+const urlWeb = process.env.URL_WEB
 
 const { auth } = NextAuth(authConfig)
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
- 
   if (pathname.startsWith("/auth")) {
     const session = await auth()
 
@@ -19,7 +19,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
- 
   if (pathname.startsWith("/profile")) {
     const session = await auth()
     if (!session) {
@@ -35,17 +34,15 @@ export async function middleware(request: NextRequest) {
     }
 
     const response = await fetch(
-      `http://localhost:3000/api/auth/getUserCurrent?email=${session.user?.email}`
+      `${urlWeb}/api/auth/getUserCurrent?email=${session.user?.email}`
     )
     const data = await response.json()
 
-
     const match = pathname.match(/^\/itineraries\/([^/]+)\/create$/)
     if (match) {
-      const idFromPath = match[1] 
-      const sessionId = data.prismaUser.id 
+      const idFromPath = match[1]
+      const sessionId = data.prismaUser.id
 
-    
       if (idFromPath !== sessionId) {
         return NextResponse.redirect(
           new URL(`/itineraries/${sessionId}/create`, request.url)

@@ -269,16 +269,16 @@ const CreateRoute = () => {
                   on: origin !== "" && destination !== "",
                 }}
               /> */}
-{ urlPlaceholder && <div className="w-full h-96 relative mb-5"> <Image
+{/* { urlPlaceholder && <div className="w-full h-96 relative mb-5"> <Image
             src={urlPlaceholder.url}
             alt="Image from Pinata"
             crossOrigin="anonymous"
             fill
             className="object-fill"
           /></div>
-}
+} */}
 
-<UploadButton
+{/* <UploadButton
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           // Do something with the response
@@ -293,7 +293,7 @@ setUrlPlaceholder({
           // Do something with the error.
           alert(ERROR! ${error.message});
         }}
-      />
+      /> */}
             </div>
 
             <div>

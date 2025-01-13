@@ -116,10 +116,10 @@ const CreateRoute = () => {
   }
 
   const onSubmit = async (data: any) => {
-    if (photos.length === 0) {
-      alert("Por favor, adicione pelo menos uma foto")
-      return
-    }
+    // if (photos.length === 0) {
+    //   alert("Por favor, adicione pelo menos uma foto")
+    //   return
+    // }
 
     const minPrice = calculateMinPrice(data.transportSteps)
     const maxPrice = calculateMaxPrice(data.transportSteps)

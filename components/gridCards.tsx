@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import RouteCard from "./routeCard"
 import { Loader2 } from "lucide-react"
+import clsx from "clsx"
 
 export default function GridCards({
   activeTab,
@@ -66,8 +67,14 @@ export default function GridCards({
       ) : (
         <div>
           {filtered.length > 0 ? (
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] gap-10 px-10">
-              {data.map((item) => {
+            <div
+              className={clsx("  gap-10 px-10", {
+                "flex items-center justify-center": filtered.length <= 1,
+                "grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]":
+                  filtered.length > 1,
+              })}
+            >
+              {filtered.map((item) => {
                 return <RouteCard route={item} key={item.id} />
               })}
             </div>

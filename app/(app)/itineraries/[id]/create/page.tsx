@@ -4,11 +4,12 @@ import React, { useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { MapPin, Plus, ChevronLeft, Save, X, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { UploadButton } from "@/utils/uploadthing";
-// import UploadPlaceholder from "@/components/uploadPlaceholder"
-// import UploadFile from "@/components/uploadFile"
+import UploadPlaceholder from "@/components/uploadPlaceholder"
+import UploadFile from "@/components/uploadFile"
 import { useSession } from "next-auth/react"
 import clsx from "clsx"
+import { UploadButton } from "@/utils/uploadthing"
+import Image from "next/image"
 
 const CreateRoute = () => {
   const router = useRouter()
@@ -261,39 +262,39 @@ const CreateRoute = () => {
 
             <div>
               <label className="block font-medium mb-2">Imagem de Capa</label>
-            {/*  <UploadPlaceholder
+              {/* <UploadPlaceholder
                 urlPlaceholder={urlPlaceholder ?? ""}
                 changeUrl={(url: any) => setUrlPlaceholder(url)}
                 groupName={{
-                  name: ${origin} -> ${destination},
+                  name: `${origin} -> ${destination}`,
                   on: origin !== "" && destination !== "",
                 }}
               /> */}
-{/* { urlPlaceholder && <div className="w-full h-96 relative mb-5"> <Image
+
+               { urlPlaceholder && <div className="w-full h-96 relative mb-5"> <Image
             src={urlPlaceholder.url}
             alt="Image from Pinata"
             crossOrigin="anonymous"
             fill
             className="object-fill"
           /></div>
-} */}
-
-{/* <UploadButton
+} 
+              <UploadButton
         endpoint="imageUploader"
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res);
 setUrlPlaceholder({
  url: res,
-  groupdId: "dkkasdkkasdkask"
+  groupdId: "groupid"
 })
           alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
           // Do something with the error.
-          alert(ERROR! ${error.message});
+          alert(`ERROR! ${error.message}`);
         }}
-      /> */}
+      />
             </div>
 
             <div>
@@ -334,7 +335,7 @@ setUrlPlaceholder({
                       <div className="space-y-4">
                         <input
                           type="text"
-                          {...register(transportSteps.${index}.title, {
+                          {...register(`transportSteps.${index}.title`, {
                             required: "Título é obrigatório",
                           })}
                           className="w-full p-3 border rounded-lg"
@@ -342,7 +343,7 @@ setUrlPlaceholder({
                         />
                         <input
                           type="text"
-                          {...register(transportSteps.${index}.details)}
+                          {...register(`transportSteps.${index}.details`)}
                           className="w-full p-3 border rounded-lg"
                           placeholder="Detalhes"
                         />
@@ -350,7 +351,7 @@ setUrlPlaceholder({
                       <div className="space-y-4">
                         <input
                           type="number"
-                          {...register(transportSteps.${index}.price, {
+                          {...register(`transportSteps.${index}.price`, {
                             required: "Preço é obrigatório",
                           })}
                           className="w-full p-3 border rounded-lg"
@@ -358,7 +359,7 @@ setUrlPlaceholder({
                         />
                         <input
                           type="time"
-                          {...register(transportSteps.${index}.duration, {
+                          {...register(`transportSteps.${index}.duration`, {
                             required: "Duração é obrigatória",
                           })}
                           className="w-full p-3 border rounded-lg"
@@ -404,14 +405,14 @@ setUrlPlaceholder({
                   >
                     <input
                       type="text"
-                      {...register(steps.${index}.title, {
+                      {...register(`steps.${index}.title`, {
                         required: "Título é obrigatório",
                       })}
                       className="w-full p-3 border rounded-lg mb-4"
                       placeholder="Título do passo"
                     />
                     <textarea
-                      {...register(steps.${index}.description, {
+                      {...register(`steps.${index}.description`, {
                         required: "Descrição é obrigatória",
                       })}
                       className="w-full p-3 border rounded-lg h-24"
@@ -442,7 +443,7 @@ setUrlPlaceholder({
                 {tipsFields.map((field, index) => (
                   <div key={field.id} className="relative">
                     <textarea
-                      {...register(tips.${index}.description)}
+                      {...register(`tips.${index}.description`)}
                       className="w-full p-3 border rounded-lg h-24"
                       placeholder="Digite uma dica importante..."
                     />

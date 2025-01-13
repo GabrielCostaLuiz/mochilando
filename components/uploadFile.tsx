@@ -8,12 +8,10 @@ export default function UploadFile({
   changeUrl,
   urlPhoto,
   groupId,
-
 }: {
   changeUrl: any
   urlPhoto: any
   groupId: string
-
 }) {
   const [file, setFile] = useState<File>()
   const [uploading, setUploading] = useState(false)
@@ -36,7 +34,6 @@ export default function UploadFile({
       const uploadRequest = await fetch("/api/files", {
         method: "POST",
         body: data,
-        
       })
       const signedUrl = await uploadRequest.json()
       changeUrl(signedUrl)
@@ -51,7 +48,6 @@ export default function UploadFile({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFile(e.target?.files?.[0])
   }
-
 
   return (
     <main className="w-full border rounded-lg p-5 m-auto flex flex-col justify-center items-center">
@@ -75,6 +71,7 @@ export default function UploadFile({
           <Image
             src={urlPhoto.url}
             alt="Image from Pinata"
+            crossOrigin="anonymous"
             fill
             className="object-fill"
           />

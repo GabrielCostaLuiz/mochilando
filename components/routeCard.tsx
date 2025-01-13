@@ -7,13 +7,12 @@ import ButtonLike from "./buttonLike"
 import { useSession } from "next-auth/react"
 
 export default function RouteCard({ route }: any) {
-
   let duration = 0
 
   route?.routeDetails?.forEach((transport: any) => {
     const [hours, minutes] = transport.duration.split(":").map(Number)
-    const totalMinutes = hours * 60 + minutes 
-    duration += totalMinutes 
+    const totalMinutes = hours * 60 + minutes
+    duration += totalMinutes
   })
 
   // const totalHours = Math.floor(duration / 60)
@@ -22,7 +21,6 @@ export default function RouteCard({ route }: any) {
   // const formattedDuration = `${String(totalHours).padStart(2, "0")}:${String(
   //   totalMinutes
   // ).padStart(2, "0")}h`
-
 
   const createdAtFormatted = new Date(route!.createdAt).toLocaleDateString(
     "pt-BR",
@@ -48,6 +46,7 @@ export default function RouteCard({ route }: any) {
           src={route.placeholderUrl}
           alt={route.title}
           width={400}
+          crossOrigin="anonymous"
           height={400}
           className="w-full h-48 object-cover rounded-t-xl"
         />

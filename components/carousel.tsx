@@ -15,11 +15,10 @@ export default function Carousel({ images }: any) {
   const handlePrev = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? photos.length - 1 : prevIndex - 1
-    ) 
+    )
   }
   return (
     <div className="relative w-full overflow-hidden rounded-xl">
-    
       <div
         className="flex transition-transform duration-500 ease-in-out"
         style={{
@@ -35,6 +34,7 @@ export default function Carousel({ images }: any) {
             <Image
               src={photo.url[0]}
               width={400}
+              crossOrigin="anonymous"
               height={400}
               className="w-full h-96 object-cover bg-center"
               alt={`Foto ${index + 1} do roteiro`}
@@ -43,7 +43,6 @@ export default function Carousel({ images }: any) {
         ))}
       </div>
 
- 
       <button
         onClick={handlePrev}
         className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-10 hover:bg-opacity-75"

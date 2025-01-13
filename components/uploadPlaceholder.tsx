@@ -56,6 +56,7 @@ export default function UploadPlaceholder({
           <Image
             src={urlPlaceholder.url}
             alt="Image from Pinata"
+            crossOrigin="anonymous"
             fill
             className="object-fill"
           />

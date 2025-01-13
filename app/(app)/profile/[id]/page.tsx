@@ -119,9 +119,9 @@ export default async function Profile({ params }: { params: Params }) {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <button className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                {/* <button className="absolute bottom-0 right-0 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
                   <Edit className="h-4 w-4" />
-                </button>
+                </button> */}
               </div>
 
               <div className="text-center md:text-left">
@@ -202,7 +202,7 @@ export default async function Profile({ params }: { params: Params }) {
                 <Route className="h-5 w-5 mr-2 text-green-500" />
                 {session?.user?.id === id
                   ? "Meus Roteiros"
-                  : `Roteiros do ${userDb?.name}`}
+                  : `Roteiros de ${userDb?.name}`}
               </CardTitle>
             </CardHeader>
             <CardContent>

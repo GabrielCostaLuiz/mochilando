@@ -77,7 +77,7 @@ export default function SignIn() {
         </form>
 
      
-        <p className="mt-6 text-center text-xs text-gray-600">
+        {/* <p className="mt-6 text-center text-xs text-gray-600">
           Ao continuar, você concorda com nossos{" "}
           <a
             href="/terms"
@@ -92,7 +92,7 @@ export default function SignIn() {
           >
             Política de Privacidade
           </a>
-        </p>
+        </p> */}
       </div>
     </div>
   )

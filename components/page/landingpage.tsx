@@ -129,12 +129,12 @@ export default function LandingPage() {
                 público e dicas da comunidade.
               </p>
               <div className="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row">
-                <button className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors">
+                <Link href={"/auth/signin"} className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-700 transition-colors">
                   Criar Conta Grátis
-                </button>
-                <button className="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-colors">
+                </Link>
+                {/* <button className="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-200 transition-colors">
                   Ver Como Funciona
-                </button>
+                </button> */}
               </div>
               {/* <div className="flex items-center gap-4 text-sm text-gray-600">
                 <div className="flex -space-x-2">
@@ -245,9 +245,9 @@ export default function LandingPage() {
             Junte-se a outros viajantes que já estão economizando e descobrindo
             experiências únicas
           </p>
-          <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-colors">
+          <Link href={"/auth/signin"} className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-colors">
             Criar Conta Gratuita
-          </button>
+          </Link>
         </div>
       </div>
 

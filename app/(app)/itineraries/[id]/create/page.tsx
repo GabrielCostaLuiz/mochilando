@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { MapPin, Plus, ChevronLeft, Save, X, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -164,6 +164,11 @@ const CreateRoute = () => {
     }
   }
 
+  useEffect(() => {
+console.log("urlPlaceholder está assim: ")
+console.log(urlPlaceholder)
+  }, [urlPlaceholder])
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b sticky top-0 z-50">
@@ -284,6 +289,7 @@ const CreateRoute = () => {
         onClientUploadComplete={(res) => {
           // Do something with the response
           console.log("Files: ", res);
+          console.log("url: ", res[0].appUrl)
 setUrlPlaceholder({
  url: res[0].appUrl,
   groupdId: "groupid"

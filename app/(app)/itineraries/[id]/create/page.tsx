@@ -8,6 +8,8 @@ import UploadPlaceholder from "@/components/uploadPlaceholder"
 import UploadFile from "@/components/uploadFile"
 import { useSession } from "next-auth/react"
 import clsx from "clsx"
+import { UploadButton } from "@/utils/uploadthing"
+import Image from "next/image"
 
 const CreateRoute = () => {
   const router = useRouter()
@@ -260,14 +262,39 @@ const CreateRoute = () => {
 
             <div>
               <label className="block font-medium mb-2">Imagem de Capa</label>
-              <UploadPlaceholder
+              {/* <UploadPlaceholder
                 urlPlaceholder={urlPlaceholder ?? ""}
                 changeUrl={(url: any) => setUrlPlaceholder(url)}
                 groupName={{
                   name: `${origin} -> ${destination}`,
                   on: origin !== "" && destination !== "",
                 }}
-              />
+              /> */}
+
+               { urlPlaceholder && <div className="w-full h-96 relative mb-5"> <Image
+            src={urlPlaceholder.url}
+            alt="Image from Pinata"
+            crossOrigin="anonymous"
+            fill
+            className="object-fill"
+          /></div>
+} 
+              <UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+setUrlPlaceholder({
+ url: res,
+  groupdId: "groupid"
+})
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+      />
             </div>
 
             <div>

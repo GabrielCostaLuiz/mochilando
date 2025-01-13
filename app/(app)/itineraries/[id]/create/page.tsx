@@ -57,7 +57,7 @@ const CreateRoute = () => {
 
   React.useEffect(() => {
     if (origin && destination) {
-      setValue("title", ${origin} → ${destination})
+      setValue("title", `${origin} → ${destination}`)
     }
   }, [origin, destination, setValue])
 
@@ -127,7 +127,7 @@ const CreateRoute = () => {
       .map((tip: any) => tip.description)
 
     const routeData = {
-      title: ${data.origin} → ${data.destination},
+      title: `${data.origin} → ${data.destination}`,
       path: {
         origin: data.origin,
         destination: data.destination,

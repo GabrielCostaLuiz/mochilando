@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
         userId: routeData.userId,
         photos: routeData.photos
           ? {
-              create: routeData.photos.map((url: { url: string }) => ({
-                url: [url.url],
+              create: routeData.photos.map((url: string) => ({
+                url: [url],
                 userId: routeData.userId,
               })),
             }

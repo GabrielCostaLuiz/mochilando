@@ -4,8 +4,9 @@ import React, { useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { MapPin, Plus, ChevronLeft, Save, X, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
-import UploadPlaceholder from "@/components/uploadPlaceholder"
-import UploadFile from "@/components/uploadFile"
+import { UploadButton } from "@/utils/uploadthing";
+// import UploadPlaceholder from "@/components/uploadPlaceholder"
+// import UploadFile from "@/components/uploadFile"
 import { useSession } from "next-auth/react"
 import clsx from "clsx"
 
@@ -56,7 +57,7 @@ const CreateRoute = () => {
 
   React.useEffect(() => {
     if (origin && destination) {
-      setValue("title", `${origin} → ${destination}`)
+      setValue("title", ${origin} → ${destination})
     }
   }, [origin, destination, setValue])
 
@@ -126,7 +127,7 @@ const CreateRoute = () => {
       .map((tip: any) => tip.description)
 
     const routeData = {
-      title: `${data.origin} → ${data.destination}`,
+      title: ${data.origin} → ${data.destination},
       path: {
         origin: data.origin,
         destination: data.destination,
@@ -152,7 +153,7 @@ const CreateRoute = () => {
 
       const { data: responseData } = await response.json()
       if (response.ok) {
-        router.push(`/itineraries/${responseData.id}`)
+        router.push(/itineraries/${responseData.id})
       }
     } catch (error) {
       console.error("Error creating route:", error)
@@ -260,14 +261,39 @@ const CreateRoute = () => {
 
             <div>
               <label className="block font-medium mb-2">Imagem de Capa</label>
-              <UploadPlaceholder
+            {/*  <UploadPlaceholder
                 urlPlaceholder={urlPlaceholder ?? ""}
                 changeUrl={(url: any) => setUrlPlaceholder(url)}
                 groupName={{
-                  name: `${origin} -> ${destination}`,
+                  name: ${origin} -> ${destination},
                   on: origin !== "" && destination !== "",
                 }}
-              />
+              /> */}
+{ urlPlaceholder && <div className="w-full h-96 relative mb-5"> <Image
+            src={urlPlaceholder.url}
+            alt="Image from Pinata"
+            crossOrigin="anonymous"
+            fill
+            className="object-fill"
+          /></div>
+}
+
+<UploadButton
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          // Do something with the response
+          console.log("Files: ", res);
+setUrlPlaceholder({
+ url: res,
+  groupdId: "dkkasdkkasdkask"
+})
+          alert("Upload Completed");
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(ERROR! ${error.message});
+        }}
+      />
             </div>
 
             <div>
@@ -308,7 +334,7 @@ const CreateRoute = () => {
                       <div className="space-y-4">
                         <input
                           type="text"
-                          {...register(`transportSteps.${index}.title`, {
+                          {...register(transportSteps.${index}.title, {
                             required: "Título é obrigatório",
                           })}
                           className="w-full p-3 border rounded-lg"
@@ -316,7 +342,7 @@ const CreateRoute = () => {
                         />
                         <input
                           type="text"
-                          {...register(`transportSteps.${index}.details`)}
+                          {...register(transportSteps.${index}.details)}
                           className="w-full p-3 border rounded-lg"
                           placeholder="Detalhes"
                         />
@@ -324,7 +350,7 @@ const CreateRoute = () => {
                       <div className="space-y-4">
                         <input
                           type="number"
-                          {...register(`transportSteps.${index}.price`, {
+                          {...register(transportSteps.${index}.price, {
                             required: "Preço é obrigatório",
                           })}
                           className="w-full p-3 border rounded-lg"
@@ -332,7 +358,7 @@ const CreateRoute = () => {
                         />
                         <input
                           type="time"
-                          {...register(`transportSteps.${index}.duration`, {
+                          {...register(transportSteps.${index}.duration, {
                             required: "Duração é obrigatória",
                           })}
                           className="w-full p-3 border rounded-lg"
@@ -378,14 +404,14 @@ const CreateRoute = () => {
                   >
                     <input
                       type="text"
-                      {...register(`steps.${index}.title`, {
+                      {...register(steps.${index}.title, {
                         required: "Título é obrigatório",
                       })}
                       className="w-full p-3 border rounded-lg mb-4"
                       placeholder="Título do passo"
                     />
                     <textarea
-                      {...register(`steps.${index}.description`, {
+                      {...register(steps.${index}.description, {
                         required: "Descrição é obrigatória",
                       })}
                       className="w-full p-3 border rounded-lg h-24"
@@ -416,7 +442,7 @@ const CreateRoute = () => {
                 {tipsFields.map((field, index) => (
                   <div key={field.id} className="relative">
                     <textarea
-                      {...register(`tips.${index}.description`)}
+                      {...register(tips.${index}.description)}
                       className="w-full p-3 border rounded-lg h-24"
                       placeholder="Digite uma dica importante..."
                     />
